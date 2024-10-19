@@ -1,7 +1,5 @@
 from bs4 import BeautifulSoup
 
-from bs4 import BeautifulSoup
-
 with open("C:/Users/Jose/Downloads/Sofia.html", encoding="utf-8") as fp:
     soup = BeautifulSoup(fp, 'html.parser')
 
