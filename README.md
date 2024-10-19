@@ -34,3 +34,7 @@ The provided code snippet outlines a process to extract client responses from a 
 
 
 The provided code snippet outlines a process for analyzing client responses to determine the suitability of various products using the OpenAI API. It connects to AWS DynamoDB to retrieve client response data and product items, then evaluates each client's preferences against the items.
+
+### Ouput_sample.json
+
+These are the top ten products we recommend
