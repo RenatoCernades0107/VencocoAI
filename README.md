@@ -3,6 +3,11 @@
 ## Solution Architecture
 <img src="hackaton_belcorp.jpg">
 
+
+### GetSkinAnalysis.py
+
+The provided code snippet do web scrapping to a file after doing the analysis from Analizador de Piel from Perfectcorp. This code returns a json where is the skin's type and some possible concerns skin may have.
+
 ### EmbedingProducts.py
 
 The provided code snippet defines a function called create_product_vector(), which constructs a normalized vector representing the popularity of products based on their total likes and shares.
