@@ -1,7 +1,7 @@
 # VencocoAI
 
 ## Solution Architecture
-<img src="/home/renato/Documents/VencocoAI/hackaton_belcorp.jpg">
+<img src="hackaton_belcorp.jpg">
 
 ### EmbedingProducts.py
 
