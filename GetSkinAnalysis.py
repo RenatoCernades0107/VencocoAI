@@ -2,40 +2,95 @@ from bs4 import BeautifulSoup
 
 from bs4 import BeautifulSoup
 
-with open("C:/Users/Jose/Downloads/Sofia.html") as fp:
+with open("C:/Users/Jose/Downloads/Sofia.html", encoding="utf-8") as fp:
     soup = BeautifulSoup(fp, 'html.parser')
 
-bars = soup.body.div.div.find_all(role="progressbar")
+tipo_piel = soup.body.find(style="flex: 1 1 0%;").div.get_text()
 
-scores = [i["aria-valuenow"] for i in bars]
-cutanea = scores[0]
-canal_lagrimal = scores[1]
-ojeras = scores[2]
-parpado_inferior_caido = scores[3]
-bolsa_de_ojos = scores[4]
-poros = scores[5]
-rojeces = scores[6]
-humedad = scores[7]
-parpado_superior_caido = scores[8]
-brillo = scores[9]
-firmeza = scores[10]
-manchas = scores[11]
-arrugas = scores[12]
-textura = scores[13]
-oleosidad = scores[14]
+if tipo_piel == "Normal":
+    tipo_piel_en = "Normal"
 
-print(f"Tu puntuacion cutanea es {cutanea}")
-print(f"Tu puntuacion canal lagrimal es {canal_lagrimal}")
-print(f"Tu puntuacion ojeras es {ojeras}")
-print(f"Tu puntuacion parpado inferior caido es {parpado_inferior_caido}")
-print(f"Tu puntuacion bolsa de ojos es {bolsa_de_ojos}")
-print(f"Tu puntuacion poros es {poros}")
-print(f"Tu puntuacion rojeces es {rojeces}")
-print(f"Tu puntuacion humedad es {humedad}")
-print(f"Tu puntuacion parpado superior caido es {parpado_superior_caido}")
-print(f"Tu puntuacion brillo es {brillo}")
-print(f"Tu puntuacion firmeza es {firmeza}")
-print(f"Tu puntuacion manchas es {manchas}")
-print(f"Tu puntuacion arrugas es {arrugas}")
-print(f"Tu puntuacion textura es {textura}")
-print(f"Tu puntuacion oleosidad es {oleosidad}")
+elif tipo_piel == "Sensible":
+    tipo_piel_en = "Sensitive"
+
+elif tipo_piel == "Seca":
+    tipo_piel_en = "Dry"
+
+elif tipo_piel == "Grasa":
+    tipo_piel_en = "Oily"
+
+elif tipo_piel == "Seca sensible":
+    tipo_piel_en = "Dry & Sensitive"
+
+elif tipo_piel == "Grasa sensible":
+    tipo_piel_en = "Oily & Sensitive"
+
+elif tipo_piel == "Mixta":
+    tipo_piel_en = "Combination"
+
+elif tipo_piel == "Mixta sensible":
+    tipo_piel_en = "Combination & Sensitive"
+
+items = soup.body.find_all(style="display: contents;")
+
+def concern_es_to_en(word):
+    if word == "Manchas":
+        return "Spots"#
+    
+    elif word == "Arrugas":
+        return "Wrinkles"#
+    
+    elif word == "Humedad":
+        return "Moisture"#
+    
+    elif word == "Rojeces":
+        return "Redness"#
+    
+    elif word == "Oleosidad":
+        return "Oiliness"#
+    
+    elif word == "Canal lagrimal":
+        return "tearThrough"
+    
+    elif word == "Textura":
+        return "Texture"
+    
+    elif word == "Ojeras":
+        return "darkCircles"
+    
+    elif word == "Bolsas de Ojos":
+        return "eyeBags"
+    elif word == "Firmeza":
+        return "skinFirmness"
+    elif word == "Párpado superior caído":
+        return "droopyUpperEyelid"
+    elif word == "Párpado inferior caído":
+        return "droopyLowerEyelid"
+    elif word == "Brillo":
+        return "radiance"
+    elif word == "Poros":
+        return "visiblePores"
+    
+    else:
+        return word
+
+consumer_skin_concerns = {}
+
+for item in items:
+    score = item.div.div.get_text()
+
+    concern = item.div.get_text()
+    concern = concern_es_to_en(concern.replace(score, ""))
+
+    # Meanwhile, score above 80 is false. No concern
+    consumer_skin_concerns[concern] = True if int(score) < 80 else False
+
+
+consumer_analysis = {
+    "skinType": tipo_piel_en,
+    "skinConcerns": consumer_skin_concerns
+}
+
+#Convert to json and show result
+import json
+print(json.dumps(consumer_analysis, indent=4))
